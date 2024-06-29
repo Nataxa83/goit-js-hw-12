@@ -40,13 +40,18 @@ export function formReset() {
 }
 
 export function showLoader() {
-    refs.loader.classList.add('hidden');
-}
-
-export function hideLoader() {
     refs.loader.classList.remove('hidden');
 }
 
-export function hideLoadMore() {
-    refs.moreBtn.classList.remove('hidden');
+export function hideLoader() {
+    refs.loader.classList.add('hidden');
 }
+
+export function showLoadMore() {
+    refs.moreBtn.style.display = 'flex';;
+}
+
+export function hideLoadMore() {
+    refs.loader.classList.add('hidden');
+}
+

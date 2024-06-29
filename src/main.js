@@ -1,6 +1,13 @@
 
 import { searchImages } from "./js/pixabay-api";
-import { markupGallery, formReset, showLoader, hideLoader, hideLoadMore} from "./js/render-functions";
+import {
+    markupGallery,
+    formReset,
+    showLoader,
+    hideLoader,
+    hideLoadMore,
+    showLoadMore,
+} from "./js/render-functions";
 
 import iziToast from "izitoast";
 import "izitoast/dist/css/iziToast.min.css";
@@ -15,13 +22,14 @@ export const refs = {
   inputImgSearch: document.querySelector('.input-search'),
   imgGallery: document.querySelector('.gallery'),
   loader: document.querySelector('.loader'),
-  moreBtn: document.querySelector('.more-btn'),
+  moreBtn: document.querySelector('.more-button'),
 };
 
 refs.formSearch.addEventListener('submit', async event => {
-    // hideLoader();
-    event.preventDefault();
+      event.preventDefault();
+
     imgKeyWord = refs.inputImgSearch.value.trim();
+    hideLoadMore();
     if (imgKeyWord === '') {
         iziToast.warning({
             title: 'warning',
@@ -35,10 +43,10 @@ refs.formSearch.addEventListener('submit', async event => {
         });
         return;
     }
-    // showLoader();
-
+    showLoader();
+    
     refs.imgGallery.innerHTML = ' ';
-
+    
     try {
         const data = await searchImages(imgKeyWord, page, per_page)
         maxPage = Math.ceil(data.totalHits / per_page);
@@ -46,7 +54,7 @@ refs.formSearch.addEventListener('submit', async event => {
             iziToast.error({
                 title: 'Error',
                 message:
-                    'Sorry, there are no images matching your search query. Please try again!',
+                'Sorry, there are no images matching your search query. Please try again!',
                 position: 'topRight',
                 displayMode: 'once',
                 color: '#ef4040',
@@ -54,14 +62,17 @@ refs.formSearch.addEventListener('submit', async event => {
                 messageSize: '16',
                 layout: 2,
             });
-                
-            hideLoader();
+            
+           
+            
             formReset();
             return;
         }
-            
+        
         hideLoader();
         markupGallery(data.hits);
+        showLoadMore();
+       
         formReset();
     }
     catch (error) {
