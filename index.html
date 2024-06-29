@@ -4,22 +4,38 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Vanilla App Template</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap"
+      rel="stylesheet"
+    />
+
     
+    <title>goit-js-hw-12</title>
     <script type="module" crossorigin src="/goit-js-hw-12/commonHelpers.js"></script>
-    <link rel="stylesheet" href="/goit-js-hw-12/assets/index-10c40100.css">
+    <link rel="modulepreload" crossorigin href="/goit-js-hw-12/assets/vendor-da73009b.js">
+    <link rel="stylesheet" href="/goit-js-hw-12/assets/vendor-1cd1f9d9.css">
+    <link rel="stylesheet" href="/goit-js-hw-12/assets/index-33540dbb.css">
   </head>
   <body>
-    ENOENT: no such file or directory, open '/home/runner/work/goit-js-hw-12/goit-js-hw-12/src/partials/header.html'
+    <div class="container">
+      <form class="form">
+        <input
+          type="text"
+          class="input-search"
+          placeholder="Search images..."
+        />
 
-    <section>
-      <h1>Example page title</h1>
-      <!-- Path to images as from index.html file -->
-      <img src="/goit-js-hw-12/assets/javascript-8dac5379.svg" alt="" />
-    </section>
+        <button type="submit" class="btn-search">Search</button>
+      </form>
 
-    <!-- Loads the specified .html file -->
-    ENOENT: no such file or directory, open '/home/runner/work/goit-js-hw-12/goit-js-hw-12/src/partials/vite-promo.html'
+      <div class="loader"></div>
+      <div class="gallery"></div>
+    </div>
+
+    <button class="more-button" type="button">Load more</button>
 
     
   </body>
