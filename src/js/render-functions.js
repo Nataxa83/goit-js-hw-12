@@ -27,7 +27,7 @@ export function markupGallery(images) {
     })
     .join('');
   refs.imgGallery.insertAdjacentHTML('beforeend', markup);
-  lightbox.refresh();
+
 }
 
 export function formReset() {
@@ -43,7 +43,7 @@ export function hideLoader() {
 }
 
 export function showLoadMore() {
-    refs.moreBtn.style.display = 'flex';;
+    refs.moreBtn.style.display = 'flex';
 }
 
 export function hideLoadMore() {

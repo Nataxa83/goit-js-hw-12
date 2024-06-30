@@ -56,6 +56,7 @@ refs.formSearch.addEventListener('submit', async event => {
         return;
     }
     showLoader();
+
     refs.imgGallery.innerHTML = ' ';
     
     
@@ -79,10 +80,10 @@ refs.formSearch.addEventListener('submit', async event => {
             hideLoader();
             return;
         }
-        
-        hideLoader();
+        // hideLoader();
         formReset();
         markupGallery(data.hits);
+        showLoader();
         lightbox.refresh();
         showLoadMore();
        
@@ -103,11 +104,11 @@ refs.formSearch.addEventListener('submit', async event => {
 });
 
 refs.moreBtn.addEventListener('click', async () => {
-    page++;
-  hideLoadMore();
-  showLoader();
-
-  try {
+    hideLoadMore();
+    showLoader();
+    
+    try {
+      page++;
 
     const data = await searchImages(imgKeyWord, page, per_page);
 
