@@ -1,3 +1,8 @@
+import SimpleLightbox from 'simplelightbox';
+import 'simplelightbox/dist/simple-lightbox.min.css';
+
+import iziToast from "izitoast";
+import "izitoast/dist/css/iziToast.min.css";
 
 import { searchImages } from "./js/pixabay-api";
 import {
@@ -7,10 +12,10 @@ import {
     hideLoader,
     hideLoadMore,
     showLoadMore,
+    checkEndPages,
+    skipOldElement,
 } from "./js/render-functions";
 
-import iziToast from "izitoast";
-import "izitoast/dist/css/iziToast.min.css";
 
 let imgKeyWord = '';
 let page = 1;
@@ -25,12 +30,18 @@ export const refs = {
   moreBtn: document.querySelector('.more-button'),
 };
 
+const lightbox = new SimpleLightbox('.gallery a', {
+  captionsData: 'alt',
+  captionDelay: 250,
+});
+
 refs.formSearch.addEventListener('submit', async event => {
       event.preventDefault();
-
+    page = 1;
     imgKeyWord = refs.inputImgSearch.value.trim();
     hideLoadMore();
     if (imgKeyWord === '') {
+         refs.imgGallery.innerHTML = ' ';
         iziToast.warning({
             title: 'warning',
             message: ' Enter a word for the query, please.',
@@ -41,11 +52,12 @@ refs.formSearch.addEventListener('submit', async event => {
             messageColor: '#fff',
             messageSize: '16',
         });
+        formReset();
         return;
     }
     showLoader();
-    
     refs.imgGallery.innerHTML = ' ';
+    
     
     try {
         const data = await searchImages(imgKeyWord, page, per_page)
@@ -63,18 +75,18 @@ refs.formSearch.addEventListener('submit', async event => {
                 layout: 2,
             });
             
-           
-            
             formReset();
+            hideLoader();
             return;
         }
         
         hideLoader();
+        formReset();
         markupGallery(data.hits);
+        lightbox.refresh();
         showLoadMore();
        
-        formReset();
-    }
+           }
     catch (error) {
         iziToast.error({
             title: 'Error',
@@ -88,4 +100,35 @@ refs.formSearch.addEventListener('submit', async event => {
         });
     };
 
+});
+
+refs.moreBtn.addEventListener('click', async () => {
+    page++;
+  hideLoadMore();
+  showLoader();
+
+  try {
+
+    const data = await searchImages(imgKeyWord, page, per_page);
+
+    if (data.hits.length !== 0) {
+        markupGallery(data.hits);
+        lightbox.refresh();
+      hideLoader();
+    }
+    checkEndPages(page, maxPage);
+    skipOldElement();
+  } catch (error) {
+    // refs.imgGallery.innerHTML = ' ';
+
+    iziToast.error({
+      title: 'Error',
+      message: `${error}`,
+      layout: 2,
+      displayMode: 'once',
+      backgroundColor: '#ef4040',
+      progressBarColor: '#B51B1B',
+      position: 'topRight',
+    });
+  }
 });

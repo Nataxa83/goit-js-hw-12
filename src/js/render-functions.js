@@ -1,12 +1,7 @@
-import simplelightbox from "simplelightbox";
-import "simplelightbox/dist/simple-lightbox.min.css";
+import iziToast from "izitoast";
+import "izitoast/dist/css/iziToast.min.css";
 
 import { refs } from "../main"; 
-
-const lightbox = new simplelightbox('.gallery a', {
-  captionsData: 'alt',
-  captionDelay: 250,
-});
 
 
 export function markupGallery(images) {
@@ -31,7 +26,7 @@ export function markupGallery(images) {
         `;
     })
     .join('');
-  refs.imgGallery.innerHTML = markup;
+  refs.imgGallery.insertAdjacentHTML('beforeend', markup);
   lightbox.refresh();
 }
 
@@ -55,3 +50,28 @@ export function hideLoadMore() {
     refs.loader.classList.add('hidden');
 }
 
+export function checkEndPages(page, maxPage) {
+  if (page >= maxPage) {
+    hideLoadMore();
+
+    if (maxPage) {
+      iziToast.info({
+        title: 'The end!',
+        message: "We're sorry, but you've reached the end of search results.",
+      });
+    }
+  } else {
+    showLoadMore();
+  }
+}
+
+export function skipOldElement(x = 0, y = 0) {
+  const liEl = refs.imgGallery.children[0];
+  const height = liEl.getBoundingClientRect().height;
+
+  window.scrollBy({
+    top: height * 2,
+    left: y,
+    behavior: 'smooth',
+  });
+}
