@@ -76,18 +76,13 @@ refs.formSearch.addEventListener('submit', async event => {
                 messageSize: '16',
                 layout: 2,
             });
-            
-            formReset();
-            // hideLoader();
-            showLoader();
-            // hideLoadMore();
             return;
         }
       
         formReset();
         markupGallery(data.hits);
-        showLoader();
         lightbox.refresh();
+        hideLoader();
         showLoadMore();
        
            }
@@ -107,24 +102,22 @@ refs.formSearch.addEventListener('submit', async event => {
 });
 
 refs.moreBtn.addEventListener('click', async () => {
-    
     try {
         showLoader();
         hideLoadMore();
-      page++;
+        page++;
 
         const data = await searchImages(imgKeyWord, page, per_page);
 
         if (data.hits.length !== 0) {
-        markupGallery(data.hits);
-        lightbox.refresh();
-        // hideLoader();
-        showLoader();
-    }
+            markupGallery(data.hits);
+            lightbox.refresh();
+        }
         skipOldElement();
         checkEndPages(page, maxPage);
+        hideLoader();
     } catch (error) {
-      hideLoadMore();
+        hideLoadMore();
 
     iziToast.error({
       title: 'Error',

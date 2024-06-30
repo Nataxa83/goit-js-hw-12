@@ -51,19 +51,17 @@ export function hideLoadMore() {
 }
 
 export function checkEndPages(page, maxPage) {
-  if (page <= maxPage) {
-      showLoadMore();
+    if (page >= maxPage) {
+        hideLoadMore();
+        iziToast.info({
+            title: 'The end!',
+            message: "We're sorry, but you've reached the end of search results.",
+        });
     } else {
-    
-      hideLoadMore();
-          iziToast.info({
-              title: 'The end!',
-              message: "We're sorry, but you've reached the end of search results.",
-          });
-   
-  }
-  
+        showLoadMore();
+    }
 }
+
 export function skipOldElement(x = 0, y = 0) {
   const liEl = refs.imgGallery.children[0];
   const height = liEl.getBoundingClientRect().height;
