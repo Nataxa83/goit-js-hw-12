@@ -39,9 +39,9 @@ refs.formSearch.addEventListener('submit', async event => {
       event.preventDefault();
     page = 1;
     imgKeyWord = refs.inputImgSearch.value.trim();
-    hideLoadMore();
+ 
     if (imgKeyWord === '') {
-         refs.imgGallery.innerHTML = ' ';
+        refs.imgGallery.innerHTML = ' ';
         iziToast.warning({
             title: 'warning',
             message: ' Enter a word for the query, please.',
@@ -52,11 +52,12 @@ refs.formSearch.addEventListener('submit', async event => {
             messageColor: '#fff',
             messageSize: '16',
         });
+        hideLoadMore();
         formReset();
         return;
     }
+    
     showLoader();
-
     refs.imgGallery.innerHTML = ' ';
     
     
@@ -77,10 +78,12 @@ refs.formSearch.addEventListener('submit', async event => {
             });
             
             formReset();
-            hideLoader();
+            // hideLoader();
+            showLoader();
+            // hideLoadMore();
             return;
         }
-        // hideLoader();
+      
         formReset();
         markupGallery(data.hits);
         showLoader();
@@ -104,23 +107,24 @@ refs.formSearch.addEventListener('submit', async event => {
 });
 
 refs.moreBtn.addEventListener('click', async () => {
-    hideLoadMore();
-    showLoader();
     
     try {
+        showLoader();
+        hideLoadMore();
       page++;
 
-    const data = await searchImages(imgKeyWord, page, per_page);
+        const data = await searchImages(imgKeyWord, page, per_page);
 
-    if (data.hits.length !== 0) {
+        if (data.hits.length !== 0) {
         markupGallery(data.hits);
         lightbox.refresh();
-      hideLoader();
+        // hideLoader();
+        showLoader();
     }
-    checkEndPages(page, maxPage);
-    skipOldElement();
-  } catch (error) {
-    // refs.imgGallery.innerHTML = ' ';
+        skipOldElement();
+        checkEndPages(page, maxPage);
+    } catch (error) {
+      hideLoadMore();
 
     iziToast.error({
       title: 'Error',

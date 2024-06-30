@@ -43,28 +43,27 @@ export function hideLoader() {
 }
 
 export function showLoadMore() {
-    refs.moreBtn.style.display = 'flex';
+    refs.moreBtn.classList.remove('more-hidden');
 }
 
 export function hideLoadMore() {
-    refs.loader.classList.add('hidden');
+    refs.moreBtn.classList.add('more-hidden');
 }
 
 export function checkEndPages(page, maxPage) {
-  if (page >= maxPage) {
-    hideLoadMore();
-
-    if (maxPage) {
-      iziToast.info({
-        title: 'The end!',
-        message: "We're sorry, but you've reached the end of search results.",
-      });
-    }
-  } else {
-    showLoadMore();
+  if (page <= maxPage) {
+      showLoadMore();
+    } else {
+    
+      hideLoadMore();
+          iziToast.info({
+              title: 'The end!',
+              message: "We're sorry, but you've reached the end of search results.",
+          });
+   
   }
+  
 }
-
 export function skipOldElement(x = 0, y = 0) {
   const liEl = refs.imgGallery.children[0];
   const height = liEl.getBoundingClientRect().height;
