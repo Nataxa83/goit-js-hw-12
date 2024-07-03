@@ -76,6 +76,8 @@ refs.formSearch.addEventListener('submit', async event => {
                 messageSize: '16',
                 layout: 2,
             });
+            hideLoadMore();
+            hideLoader();
             return;
         }
       
@@ -115,7 +117,7 @@ refs.moreBtn.addEventListener('click', async () => {
         }
         skipOldElement();
         checkEndPages(page, maxPage);
-        hideLoader();
+        hideLoader();XMLDocumentx
     } catch (error) {
         hideLoadMore();
 
